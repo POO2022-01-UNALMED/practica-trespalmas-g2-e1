@@ -1,10 +1,12 @@
-package gestorAplicacion;
+package gestorAplicacion.store;
 
-public class Cooler extends Store{
+public class Shelf extends Store{
+
     private final int maxAmount;
 
+
     // CONSTRUCTORS
-    public Cooler(int id, int maxAmount) {
+    public Shelf(int id,int maxAmount) {
         super(id);
         this.maxAmount = maxAmount;
     }
@@ -12,7 +14,7 @@ public class Cooler extends Store{
     // METHODS IMPLEMENTS
     @Override
     public String getId() {
-        return "C" + this.id;
+        return "S" + this.id;
     }
 
     @Override

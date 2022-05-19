@@ -1,4 +1,4 @@
-package gestorAplicacion;
+package gestorAplicacion.store;
 
 public class Backup extends Store{
 

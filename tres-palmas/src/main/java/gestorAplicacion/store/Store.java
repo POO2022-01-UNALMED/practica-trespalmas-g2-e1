@@ -1,4 +1,4 @@
-package gestorAplicacion;
+package gestorAplicacion.store;
 
 public abstract class Store {
 
