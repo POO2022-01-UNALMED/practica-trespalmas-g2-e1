@@ -15,7 +15,7 @@ public class Recipe{
     }
 
     public Recipe(String name, TypeRecipe type){
-        this(name, type, new ArrayList<>());
+        this(name, type, new ArrayList<Ingredient>());
     }
 
     public Recipe(String name, TypeRecipe type, ArrayList<Ingredient> ingredients) {
