@@ -24,6 +24,11 @@ public class CoolIngredient extends Ingredient implements IngredientFuncs{
 
     // GETTERS AND SETTERS
 
+    @Override
+    public int getAmount() {
+        return amount;
+    }
+
     public static int getTotalIngredient() {
         return totalIngredient;
     }

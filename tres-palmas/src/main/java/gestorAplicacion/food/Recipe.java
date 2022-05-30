@@ -13,11 +13,9 @@ public class Recipe{
     public Recipe(String name){
         this(name, TypeRecipe.DEFAULT);
     }
-
     public Recipe(String name, TypeRecipe type){
         this(name, type, new ArrayList<Ingredient>());
     }
-
     public Recipe(String name, TypeRecipe type, ArrayList<Ingredient> ingredients) {
         this.name = name;
         this.id = Recipe.total;
@@ -53,8 +51,26 @@ public class Recipe{
     }
 
     // METHODS
-    public String prepare(){
-        return null;
+    public String prepare(ArrayList<Integer> amounts, boolean replace){
+        if ( amounts.size() != ingredients.size() ){
+            return "Cantidad de Ingredientes inválida, se requieren " + ingredients.size() + " ingredientes";
+        }
+        String recipe = this.name+ "\tIngrediente\tCantidad\n";
+        for (int i=0; i < ingredients.size(); i++){
+            int amountToUse = amounts.get(i);
+            Ingredient ingredientToUse = ingredients.get(i);
+            if ( ingredientToUse.getAmount() < amountToUse && !replace){
+                return "No hay suficiente " + ingredientToUse.getName() + " para la receta.";
+            } else if (ingredientToUse.getAmount() < amountToUse && Ingredient.ingredientReplace(ingredientToUse) == null ) {
+                return "No hay suficiente " + ingredientToUse.getName() + " para la receta." +
+                        " Tampoco hay reemplazo";
+            } else if (ingredientToUse.getAmount() < amountToUse) {
+                ingredientToUse = Ingredient.ingredientReplace(ingredientToUse);
+            }
+            assert ingredientToUse != null;
+            ingredientToUse.useIngredient(amountToUse);
+            recipe += Ingredient.instructionIngredient(ingredientToUse) + "\t"+ ingredientToUse.getName()+"\t"+ amountToUse + "\n";
+        }
+        return recipe;
     }
-
 }
