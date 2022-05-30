@@ -1,8 +1,9 @@
 package gestorAplicacion.food;
 
+import gestorAplicacion.store.Cooler;
+
 public class CoolIngredient extends Ingredient implements IngredientFuncs{
 
-    private static final int ingredientConst = 394;
     private static int totalIngredient;
     private final int degrees;
     private int amount;
@@ -15,7 +16,7 @@ public class CoolIngredient extends Ingredient implements IngredientFuncs{
         this(name, totalIngredient, TypeIngredient.DEFAULT, degrees, amount);
     }
     public CoolIngredient(String name, int id, TypeIngredient type, int degrees, int amount) {
-        super(name, id* ingredientConst, type);
+        super(name, id* CoolConst, type);
         this.degrees = degrees;
         this.amount = amount;
         CoolIngredient.totalIngredient++;
@@ -50,12 +51,24 @@ public class CoolIngredient extends Ingredient implements IngredientFuncs{
     }
 
     public boolean addIngredient(int amount) {
+        if ( this.storage == null ){
+            return false;
+        }
+        if ( ! (this.storage instanceof Cooler) ){
+            return false;
+        }
+        if ( ((Cooler) storage).getDegrees() > this.degrees ) {
+            return false;
+        }
+
         this.amount += amount;
+        this.storage.addIngredient(amount);
         return true;
     }
 
+    @Override
     public String getId(){
-        return "F:" + this.id + this.name.charAt(0);
+        return "FO-" + this.id + "-" + this.name.charAt(0);
     }
 
 }

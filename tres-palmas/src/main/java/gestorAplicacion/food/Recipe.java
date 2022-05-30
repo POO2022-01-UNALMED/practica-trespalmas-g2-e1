@@ -32,8 +32,8 @@ public class Recipe{
         return name;
     }
 
-    public int getId() {
-        return id;
+    public String getId(){
+        return "RE-"+ this.id + "-" + this.name.charAt(0);
     }
 
     public TypeRecipe getType() {
@@ -53,7 +53,8 @@ public class Recipe{
     }
 
     // METHODS
-
-
+    public String prepare(){
+        return null;
+    }
 
 }

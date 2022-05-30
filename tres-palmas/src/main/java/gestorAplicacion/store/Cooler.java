@@ -1,22 +1,35 @@
 package gestorAplicacion.store;
 
 public class Cooler extends Store{
-    private final int maxAmount;
+
+    public static final int maxAmount = 20;
+    private int degrees;
 
     // CONSTRUCTORS
-    public Cooler(int id, int maxAmount) {
+    public Cooler(int id, int degrees) {
         super(id);
-        this.maxAmount = maxAmount;
+        this.degrees = degrees;
+    }
+
+    // GETTERS AND SETTERS
+    @Override
+    public int getFreeAmount() {
+        return maxAmount - actualAmount;
+    }
+    public int getDegrees() {
+        return degrees;
+    }
+    public void setDegrees(int degrees) {
+        this.degrees = degrees;
     }
 
     // METHODS IMPLEMENTS
+    public static int getMaxAmount() {
+        return Cooler.maxAmount;
+    }
     @Override
     public String getId() {
-        return "C" + this.id;
+        return "CR-" + this.id;
     }
 
-    @Override
-    public int getMaxAmount() {
-        return this.maxAmount;
-    }
 }

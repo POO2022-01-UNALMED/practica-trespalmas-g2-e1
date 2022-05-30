@@ -8,18 +8,18 @@ public enum TypeIngredient {
     FRUTA("Fruta", 1),
     LACTEO("Lacteo", 2);
 
-    private final String type;
+    private final String name;
     private final int space;
 
     // CONSTRUCTOR
-    TypeIngredient(String type, int space) {
-        this.type = type;
+    TypeIngredient(String name, int space) {
+        this.name = name;
         this.space = space;
     }
 
     // METHODS
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
     public int getSpace() {
