@@ -29,10 +29,33 @@ public abstract class Store {
     public ArrayList<Ingredient> getFood() {
         return food;
     }
-    public ArrayList<Store> getAllStores(){return allStores;}
+    public static ArrayList<Store> getAllStores(){return allStores;}
+    public boolean removeFood(Ingredient ingredient){
+        if (ingredient == null){
+            return false;
+        }
+        if (!food.contains(ingredient)){
+            return false;
+        }
+        this.food.remove(ingredient);
+        this.actualAmount -= ingredient.getType().getSpace()*ingredient.getAmount();
+        return true;
+    }
+    public boolean addFood(Ingredient ingredient, int amount){
+        if ( ingredient == null ){
+            return false;
+        }
+        int space = ingredient.getType().getSpace()*ingredient.getAmount();
+        if ( this.getFreeAmount() < space ){
+            return false;
+        }
+        this.food.add(ingredient);
+        this.actualAmount += space;
+        return true;
+    }
 
     // METHODS
-    public int addIngredient(int amount){
+    public int addAmount(int amount){
         this.actualAmount += amount;
         return actualAmount;
     }

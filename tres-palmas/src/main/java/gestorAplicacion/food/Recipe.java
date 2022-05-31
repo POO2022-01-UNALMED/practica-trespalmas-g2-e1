@@ -70,7 +70,7 @@ public class Recipe implements Serializable {
             }
             assert ingredientToUse != null;
             ingredientToUse.useIngredient(amountToUse);
-            recipe += Ingredient.instructionIngredient(ingredientToUse) + "\t"+ ingredientToUse.getName()+"\t"+ amountToUse + "\n";
+            recipe += ingredientToUse.storage.getId() + "\t"+ ingredientToUse.getName()+"\t"+ amountToUse + "\n";
         }
         return recipe;
     }

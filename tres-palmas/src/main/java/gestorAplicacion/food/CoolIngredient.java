@@ -1,6 +1,7 @@
 package gestorAplicacion.food;
 
 import gestorAplicacion.store.Cooler;
+import gestorAplicacion.store.Store;
 
 import java.io.Serializable;
 
@@ -72,10 +73,23 @@ public class CoolIngredient extends Ingredient implements IngredientFuncs, Seria
         }
 
         this.amount += amount;
-        this.storage.addIngredient(amount*type.getSpace());
+        this.storage.addAmount(amount*type.getSpace());
         return true;
     }
-
+    @Override
+    public boolean isValidStore(Store store){
+        if ( store.getFreeAmount() < amount*type.getSpace() ){
+            return false;
+        }
+        if ( !(store instanceof Cooler) ){
+            return false;
+        }
+        if ( ((Cooler) store).getDegrees() > this.degrees ){
+            return false;
+        }
+        this.storage = store;
+        return true;
+    }
     @Override
     public String getId(){
         return "FO-" + this.id + "-" + this.name.charAt(0);
