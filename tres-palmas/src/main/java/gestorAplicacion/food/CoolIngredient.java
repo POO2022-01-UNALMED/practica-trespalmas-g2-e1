@@ -2,7 +2,9 @@ package gestorAplicacion.food;
 
 import gestorAplicacion.store.Cooler;
 
-public class CoolIngredient extends Ingredient implements IngredientFuncs{
+import java.io.Serializable;
+
+public class CoolIngredient extends Ingredient implements IngredientFuncs, Serializable {
 
     private static int totalIngredient;
     private final int degrees;
@@ -10,10 +12,10 @@ public class CoolIngredient extends Ingredient implements IngredientFuncs{
 
     // CONSTRUCTOR
     public CoolIngredient(String name, int amount){
-        this(name, 5, amount);
+        this(name, TypeIngredient.DEFAULT, 5, amount);
     }
-    public CoolIngredient(String name, int degrees, int amount){
-        this(name, totalIngredient, TypeIngredient.DEFAULT, degrees, amount);
+    public CoolIngredient(String name, TypeIngredient type, int degrees, int amount){
+        this(name, totalIngredient, type, degrees, amount);
     }
     public CoolIngredient(String name, int id, TypeIngredient type, int degrees, int amount) {
         super(name, id* CoolConst, type);
@@ -59,6 +61,9 @@ public class CoolIngredient extends Ingredient implements IngredientFuncs{
         if ( this.storage == null ){
             return false;
         }
+        if ( this.storage.getFreeAmount() < this.type.getSpace() * amount){
+            return false;
+        }
         if ( ! (this.storage instanceof Cooler) ){
             return false;
         }
@@ -67,7 +72,7 @@ public class CoolIngredient extends Ingredient implements IngredientFuncs{
         }
 
         this.amount += amount;
-        this.storage.addIngredient(amount);
+        this.storage.addIngredient(amount*type.getSpace());
         return true;
     }
 
@@ -76,4 +81,14 @@ public class CoolIngredient extends Ingredient implements IngredientFuncs{
         return "FO-" + this.id + "-" + this.name.charAt(0);
     }
 
+    @Override
+    public String toString() {
+        return "CoolIngredient{" +
+                "degrees=" + degrees +
+                ", amount=" + amount +
+                ", name='" + name + '\'' +
+                ", id=" + id +
+                ", type=" + type +
+                '}';
+    }
 }

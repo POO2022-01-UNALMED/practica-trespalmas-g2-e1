@@ -1,6 +1,8 @@
 package gestorAplicacion.store;
 
-public class Shelf extends Store{
+import java.io.Serializable;
+
+public class Shelf extends Store implements Serializable {
 
     public static final int maxAmount = 25;
 

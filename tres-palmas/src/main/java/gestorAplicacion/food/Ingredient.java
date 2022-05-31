@@ -6,6 +6,7 @@ import gestorAplicacion.store.Shelf;
 import gestorAplicacion.store.Store;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Ingredient{
     protected String name;
@@ -19,6 +20,8 @@ public abstract class Ingredient{
         this.name = name;
         this.id = id;
         this.type = type;
+        this.storage = new Backup(id);
+        storage.getFood().add(this);
         Ingredient.allIngredients.add(this);
     }
 
@@ -26,16 +29,38 @@ public abstract class Ingredient{
     public String getName(){
         return this.name;
     }
+    public Store getStorage(){return this.storage;}
     abstract int getAmount();
-    abstract String getId();
     abstract int useIngredient();
     abstract int useIngredient(int amount);
     abstract boolean addIngredient(int amount);
+    public abstract String getId();
+    public String genericId(){
+        return "IT-"+this.hashCode();
+    }
 
+    public static Ingredient ingredientReplace(String id){
+        for (Ingredient ingredient:
+             allIngredients) {
+            if (id.charAt(0) == 'C'){
+                if (Objects.equals( ((ClimateIngredient) ingredient).getId(), id)){
+                    return ingredientReplace(ingredient);
+                }
+            } else if (id.charAt(0) == 'F') {
+                if (Objects.equals( ((CoolIngredient) ingredient).getId(), id)){
+                    return ingredientReplace(ingredient);
+                }
+            }
+            if (Objects.equals(ingredient.name, id)){
+                return ingredientReplace(ingredient);
+            }
+        }
+        return null;
+    }
     public static Ingredient ingredientReplace(Ingredient ingredient){
         for (Ingredient anotherIngredient:
              allIngredients) {
-            if ( ingredient.type == anotherIngredient.type ){
+            if ( ingredient.equals(anotherIngredient) && anotherIngredient.getAmount() > 1){
                 return anotherIngredient;
             }
         }
@@ -43,6 +68,9 @@ public abstract class Ingredient{
     }
     public static String instructionIngredient(Ingredient ingredient){
         Store storage = ingredient.storage;
+        if (storage == null){
+            return "No Tiene Almacenamiento";
+        }
         if (storage instanceof Shelf){
             return ((Shelf) storage).getId();
         }
@@ -54,4 +82,14 @@ public abstract class Ingredient{
         }
         return storage.getId();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof CoolIngredient && this instanceof CoolIngredient)) return false;
+        Ingredient that = (Ingredient) o;
+        return type == that.type;
+    }
+
 }
