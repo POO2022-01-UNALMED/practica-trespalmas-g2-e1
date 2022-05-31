@@ -1,6 +1,8 @@
 package gestorAplicacion.store;
 
-public class Cooler extends Store{
+import java.io.Serializable;
+
+public class Cooler extends Store implements Serializable {
 
     public static final int maxAmount = 20;
     private int degrees;

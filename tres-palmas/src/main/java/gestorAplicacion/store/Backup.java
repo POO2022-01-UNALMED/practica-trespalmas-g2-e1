@@ -1,6 +1,8 @@
 package gestorAplicacion.store;
 
-public class Backup extends Store{
+import java.io.Serializable;
+
+public class Backup extends Store implements Serializable {
 
     public static final int maxAmount = 50;
 

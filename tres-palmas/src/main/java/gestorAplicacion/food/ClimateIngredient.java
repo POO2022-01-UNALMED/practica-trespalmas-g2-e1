@@ -1,14 +1,15 @@
 package gestorAplicacion.food;
 
-public class ClimateIngredient extends Ingredient implements IngredientFuncs{
+import java.io.Serializable;
 
+public class ClimateIngredient extends Ingredient implements IngredientFuncs, Serializable {
 
     private static int totalIngredient;
     private int amount;
 
     // CONSTRUCTOR
-    public ClimateIngredient(String name, int amount) {
-        this(name, totalIngredient, TypeIngredient.DEFAULT, amount);
+    public ClimateIngredient(String name, TypeIngredient type, int amount) {
+        this(name, totalIngredient, type, amount);
     }
     public ClimateIngredient(String name, int id, TypeIngredient type, int amount) {
         super(name, id*ClimateConst, type);
@@ -48,11 +49,21 @@ public class ClimateIngredient extends Ingredient implements IngredientFuncs{
             return false;
         }
         this.amount += amount;
-        this.storage.addIngredient(amount);
+        this.storage.addIngredient(amount*type.getSpace());
         return true;
     }
     @Override
     public String getId(){
         return "CA-"+ this.id + "-" + this.name.charAt(0);
+    }
+
+    @Override
+    public String toString() {
+        return "ClimateIngredient{" +
+                "amount=" + amount +
+                ", name='" + name + '\'' +
+                ", id=" + id +
+                ", type=" + type +
+                '}';
     }
 }

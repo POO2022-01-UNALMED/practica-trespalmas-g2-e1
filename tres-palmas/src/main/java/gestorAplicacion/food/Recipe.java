@@ -1,8 +1,9 @@
 package gestorAplicacion.food;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Recipe{
+public class Recipe implements Serializable {
     public static int total = 0;
     private String name;
     private final int id;
