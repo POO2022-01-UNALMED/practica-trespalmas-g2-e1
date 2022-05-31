@@ -1,5 +1,8 @@
 package gestorAplicacion.food;
 
+import gestorAplicacion.store.Shelf;
+import gestorAplicacion.store.Store;
+
 import java.io.Serializable;
 
 public class ClimateIngredient extends Ingredient implements IngredientFuncs, Serializable {
@@ -49,9 +52,24 @@ public class ClimateIngredient extends Ingredient implements IngredientFuncs, Se
             return false;
         }
         this.amount += amount;
-        this.storage.addIngredient(amount*type.getSpace());
+        this.storage.addAmount(amount*type.getSpace());
         return true;
     }
+
+    @Override
+    public boolean isValidStore(Store store){
+        if ( store.getFreeAmount() < amount*type.getSpace() ){
+            return false;
+        }
+        if ( !(store instanceof Shelf) ){
+            return false;
+        }
+        this.storage.getFood().remove(this);
+        this.storage = store;
+        this.storage.getFood().add(this);
+        return true;
+    }
+
     @Override
     public String getId(){
         return "CA-"+ this.id + "-" + this.name.charAt(0);

@@ -4,6 +4,7 @@ import gestorAplicacion.food.ClimateIngredient;
 import gestorAplicacion.food.CoolIngredient;
 import gestorAplicacion.food.Ingredient;
 import gestorAplicacion.food.TypeIngredient;
+import gestorAplicacion.store.Store;
 
 import java.lang.reflect.Type;
 import java.util.Objects;
@@ -29,15 +30,37 @@ public class uiMain implements Config {
                         System.out.println("Opción Seleccionada: " + option);
                         System.out.println("Por favor introduzca el NOMBRE o ID del ingrediente a reemplazar.");
                         String ing = sc.nextLine();
-                        Ingredient replace = Ingredient.ingredientReplace(ing);
-                        if ( replace == null){
+                        Ingredient ingredienteReemplazar = Ingredient.getIngredientById(ing);
+                        Ingredient reemplazo = Ingredient.ingredientReplace(ing);
+                        if ( reemplazo == null || ingredienteReemplazar == null){
                             System.out.println("El ingrediente ingresado no fue encontrado o es inválido");
                             break;
                         }
-                        System.out.println("El ingrediente que reemplazará es " + replace.getName() + "\n" +
-                                "Se encuentra ubicado en: " + replace.getStorage().getId());
+                        System.out.println("ID Antiguo\t\tNombre Antiguo\t\tUbicación Antiguo");
+                        System.out.println(ingredienteReemplazar.getId() + "\t" + ingredienteReemplazar.getName() + "\t" + ingredienteReemplazar.getStorage().getId());
+                        System.out.println("ID Nuevo\t\tNombre Nuevo\t\tUbicación Nuevo");
+                        System.out.println(reemplazo.getId() + "\t" + reemplazo.getName() + "\t" + reemplazo.getStorage().getId());
                         break;
                     case "3":
+                        System.out.println("Ficha Organizar Bodega:");
+                        System.out.println("ID\t\tNombre\t\tAntiguo Almacenamiento\t\t" +
+                                "Nuevo Almacenamiento\t\tCantidad");
+                        for (Ingredient ingredient:
+                             Ingredient.getAllIngredients()) {
+                            String antiguaUbicacion = ingredient.getStorage().getId();
+                            for (Store store:
+                                 Store.getAllStores()) {
+                                if (ingredient.isValidStore(store)){
+                                    break;
+                                }
+                            }
+                            System.out.println(ingredient.getId() + "\t\t" +
+                                    ingredient.getName() + "\t\t" +
+                                    antiguaUbicacion + "\t\t" +
+                                    ingredient.getStorage().getId() + "\t\t" +
+                                    ingredient.getAmount());
+                        }
+                        break;
                     case "4":
                     case "1":
                     case "5":
@@ -147,7 +170,33 @@ public class uiMain implements Config {
                         }
                         break;
                     case "2":
+                        System.out.println("ID\t\tUbicación\t\tIngrediente\t\tCantidad");
+                        for (Ingredient ingredient:
+                             Ingredient.getAllIngredients()) {
+                            System.out.println(ingredient.getId() + "\t\t" +
+                                    ingredient.getStorage().getId() + "\t\t"+
+                                    ingredient.getName()+ "\t\t"+
+                                    ingredient.getAmount());
+                        }
+                        System.out.println("Por favor introduzca la ID del elemento a añadir.\n\tID: ");
+                        String id = sc.nextLine();
+                        Ingredient ingrediente = Ingredient.getIngredientById(id);
+                        if(ingrediente == null){
+                            System.out.println("ID ingresada inválida");
+                            break;
+                        }
+                        System.out.println("Por favor introduzca la cantidad a añadir.\n\tCantidad: ");
+                        int cantidad = sc.nextInt();
+                        if( !ingrediente.addIngredient(cantidad) ){
+                            System.out.println("No se ha añadido la cantidad solicitada, por favor verifique el espacio libre.");
+                            break;
+                        }
+                        System.out.println("Se ha añadido una cantidad de " +
+                                cantidad + " " + ingrediente.getName());
+                        break;
                     case "3":
+                        break;
+                    case "5":
                         menu = "m";
                         break;
                 }
