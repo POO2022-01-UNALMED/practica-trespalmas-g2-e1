@@ -9,6 +9,7 @@ public class Recipe implements Serializable {
     private final int id;
     private TypeRecipe type;
     private final ArrayList<Ingredient> ingredients;
+    private static final ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
 
     // CONSTRUCTORS
     public Recipe(String name){
@@ -22,6 +23,7 @@ public class Recipe implements Serializable {
         this.id = Recipe.total;
         this.type = type;
         this.ingredients = ingredients;
+        allRecipes.add(this);
         Recipe.total++;
     }
 
@@ -52,6 +54,15 @@ public class Recipe implements Serializable {
     }
 
     // METHODS
+    public static Recipe getRepice(String ID){
+        for (Recipe recipe:
+             allRecipes) {
+            if (recipe.getId().equals(ID)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
     public String prepare(ArrayList<Integer> amounts, boolean replace){
         if ( amounts.size() != ingredients.size() ){
             return "Cantidad de Ingredientes inválida, se requieren " + ingredients.size() + " ingredientes";

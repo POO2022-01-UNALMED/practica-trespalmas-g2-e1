@@ -64,9 +64,9 @@ public class ClimateIngredient extends Ingredient implements IngredientFuncs, Se
         if ( !(store instanceof Shelf) ){
             return false;
         }
-        this.storage.getFood().remove(this);
+        this.storage.removeFood(this);
         this.storage = store;
-        this.storage.getFood().add(this);
+        this.storage.addFood(this, this.amount*this.type.getSpace());
         return true;
     }
 
